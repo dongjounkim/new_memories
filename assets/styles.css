@@ -1,0 +1,60 @@
+@media screen and (max-width: 768px) {
+  .book {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  position: relative;
+}
+
+.book {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.book__page {
+  position: relative;
+  max-width: 400px;
+  max-height: 600px;
+  width: 400px;
+  height: 600px;
+  background-color: antiquewhite;
+  border: 2px black solid;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.book__page__map {
+  height: 90%;
+  width: 90%;
+}
+
+.book__page__text {
+  height: 90%;
+  width: 90%;
+}
+/*# sourceMappingURL=styles.css.map */

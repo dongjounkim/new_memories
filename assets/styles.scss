@@ -1,0 +1,44 @@
+@media screen and (max-width: 768px) {
+    .book {
+        flex-direction: column;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+}
+
+.book {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__page {
+        position: relative;
+        max-width: 400px;
+        max-height: 600px;
+        width: 400px;
+        height: 600px;
+        background-color: antiquewhite;
+        border: 2px black solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__map {
+            height: 90%;
+            width: 90%;
+        }
+
+        &__text {
+            height: 90%;
+            width: 90%; 
+        }
+    }
+}
+
