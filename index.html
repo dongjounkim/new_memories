@@ -15,7 +15,7 @@
         crossorigin=""></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="assets/papaparse.min.js"></script>
-    <script src="assets/script.js"></script>
+    <script src="assets/require.min.js"></script>
 </head>
 
 <body>
@@ -23,69 +23,17 @@
     <div class="book">
         <div class="book__page">
             <div class="book__page__text">
-                Est exercitation dolor deserunt fugiat anim et tempor aliqua. Nisi aliquip adipisicing proident ex
-                occaecat enim veniam et proident dolor id reprehenderit. Consectetur sunt velit labore do non occaecat.
-                Minim sit eiusmod nulla voluptate consequat ex reprehenderit nostrud aute. Aute proident aliquip
-                pariatur proident. Amet labore dolore culpa non non ex consectetur id ullamco exercitation quis sunt.
-                Culpa minim deserunt laborum fugiat ullamco aliquip.
+                <div id="listingTable"></div>
+                <a href="javascript:prevPage()" id="btn_prev">Prev</a>
+                <a href="javascript:nextPage()" id="btn_next">Next</a>
+                page: <span id="page"></span>
             </div>
         </div>
         <div class="book__page">
             <div id="mapid" class="book__page__map"></div>
         </div>
     </div>
-    <script>
-        // initialize Leaflet
-        var map = L.map('mapid').setView([46, 2], 5);
-
-        // add the OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-        }).addTo(map);
-
-        // show the scale bar on the lower left corner
-        L.control.scale().addTo(map);
-
-        // Read markers data from data.csv
-        $.get('assets/data/dev_data_locations.csv', function (csvString) {
-
-            // Use PapaParse to convert string to array of objects
-            var data = Papa.parse(csvString, {
-                header: true,
-                endoding: "fr",
-                transform: function (h) {
-                    return h.replace(',', '.')
-                },
-                dynamicTyping: true
-            }).data;
-
-            console.log(data);
-            // For each row in data, create a marker and add it to the map
-            // For each row, columns `lat`, `lng`, and `city` are required
-            for (var i in data) {
-                var row = data[i];
-
-
-                if (row.page == null ) {
-                    var marker = L.marker([row.lat, row.lng], {
-                    opacity: 1
-                    }).bindPopup(row.city + '<br>' + row.subject);
-
-
-                } else {
-                    var marker = L.marker([row.lat, row.lng], {
-                    opacity: 1
-                    }).bindPopup(row.city + '<br>' + row.subject + '<br>' + row.page);
-
-
-                };
-
-                marker.addTo(map);
-            }
-
-        });
-    </script>
+    <script src="assets/script.js"></script>
 </body>
 
 </html>
