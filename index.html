@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -24,9 +24,13 @@
         <div class="book__page">
             <div class="book__page__text">
                 <div id="listingTable"></div>
-                <a href="javascript:prevPage()" id="btn_prev">Prev</a>
-                <a href="javascript:nextPage()" id="btn_next">Next</a>
-                page: <span id="page"></span>
+            </div>
+            <div class="book__page__menu">
+                <!-- <a href="javascript:prevPage()" id="btn_prev">Prev</a> -->
+                <button onclick="prevPage()" class="book__page__menu__btn" id="btn_prev">Précédent</button>
+                <span class="book__page__menu__text">Page: </span><span id="page"></span>
+                <!-- <a href="javascript:nextPage()" id="btn_next">Next</a> -->
+                <button onclick="nextPage()" class="book__page__menu__btn" id="btn_next">Suivant</button>
             </div>
         </div>
         <div class="book__page">

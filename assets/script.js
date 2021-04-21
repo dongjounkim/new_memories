@@ -23,11 +23,35 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         dynamicTyping: true
     }).data;
 
-    console.log(data);
+    function findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // console.log(data);
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
     for (var i in data) {
         var row = data[i];
+        var key = row.lat + row.lng;
+        var truePage = row.page - 15;
+        row.key = key;
+        row.truePage = truePage;
+
+        let exists = Object.values(row).includes(key);
+
+        console.log(exists);
+        console.log(row.key);
+
+        if (exists === true) {
+            console.log('yes');
+        } else {
+            console.log('no');
+        }
 
         // If `page` is null, then do not show page number
         if (row.page == null) {
@@ -40,8 +64,6 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
             var marker = L.marker([row.lat, row.lng], {
                 opacity: 1
             }).bindPopup('<b>' + row.city + '</b><br>' + row.subject + '<br>' + row.page);
-
-
         };
 
         marker.addTo(map);
@@ -49,66 +71,45 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
 
 });
 
-//Import txt file as a JS variable
-// const fileUrl = 'assets/data/dev_data_text.html' 
-
-// fetch(fileUrl)
-//    .then( r => r.text() )
-// //    .then( t => console.log(t) )
-
 //Pagination
-var current_page = 1;
-var records_per_page = 2;
+//Get HTML file locally
+$.get('assets/data/dev_data_text.html', function (textData) {
+    // Global variables
+    newData = textData.split('</page>');
+    console.log(newData);
 
-const objJson = require(['assets/data/text.json']);
+    current_page = 1;
+    records_per_page = 2;
+});
 
-
-
-
-// var objJson = [
-//     { adName: "asd"},
-//     { adName: "AdName 2"},
-//     { adName: "AdName 3"},
-//     { adName: "AdName 4"},
-//     { adName: "AdName 5"},
-//     { adName: "AdName 6"},
-//     { adName: "AdName 7"},
-//     { adName: "AdName 8"},
-//     { adName: "AdName 9"},
-//     { adName: "AdName 10"}
-// ]; // Can be obtained from another source, such as your objJson variable
-
-function prevPage()
-{
+function prevPage() {
     if (current_page > 1) {
         current_page--;
         changePage(current_page);
     }
 }
 
-function nextPage()
-{
+function nextPage() {
     if (current_page < numPages()) {
         current_page++;
         changePage(current_page);
     }
 }
-    
-function changePage(page)
-{
+
+function changePage(page) {
     var btn_next = document.getElementById("btn_next");
     var btn_prev = document.getElementById("btn_prev");
     var listing_table = document.getElementById("listingTable");
     var page_span = document.getElementById("page");
- 
+
     // Validate page
     if (page < 1) page = 1;
     if (page > numPages()) page = numPages();
 
     listing_table.innerHTML = "";
 
-    for (var i = (page-1) * records_per_page; i < (page * records_per_page); i++) {
-        listing_table.innerHTML += objJson[i].adName + "<br>";
+    for (var i = (page - 1) * records_per_page; i < (page * records_per_page); i++) {
+        listing_table.innerHTML += newData[i] + "<br>";
     }
     page_span.innerHTML = page;
 
@@ -125,11 +126,23 @@ function changePage(page)
     }
 }
 
-function numPages()
-{
-    return Math.ceil(objJson.length / records_per_page);
+function numPages() {
+    return Math.ceil(newData.length / records_per_page);
 }
 
-window.onload = function() {
+window.onload = function () {
     changePage(1);
+};
+
+
+// Changes page when left and right arrow keys are pressed down
+document.onkeydown = function () {
+    switch (window.event.keyCode) {
+        case 37:
+            prevPage()
+            break;
+        case 39:
+            nextPage();
+            break;
+    }
 };

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 @media screen and (max-width: 768px) {
     .book {
         flex-direction: column;
@@ -6,6 +8,7 @@
 
 * {
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -20,15 +23,17 @@ body {
 
     &__page {
         position: relative;
-        max-width: 400px;
-        max-height: 600px;
-        width: 400px;
-        height: 600px;
+        max-width: 700px;
+        max-height: 800px;
+        width: 700px;
+        height: 800px;
         background-color: antiquewhite;
         border: 2px black solid;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
+        font-size: 0.9rem;
 
         &__map {
             height: 90%;
@@ -38,6 +43,15 @@ body {
         &__text {
             height: 90%;
             width: 90%; 
+        }
+
+        &__menu {
+
+            &__btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
         }
     }
 }
