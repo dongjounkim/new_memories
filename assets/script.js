@@ -42,17 +42,6 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         row.key = key;
         row.truePage = truePage;
 
-        let exists = Object.values(row).includes(key);
-
-        console.log(exists);
-        console.log(row.key);
-
-        if (exists === true) {
-            console.log('yes');
-        } else {
-            console.log('no');
-        }
-
         // If `page` is null, then do not show page number
         if (row.page == null) {
             var marker = L.marker([row.lat, row.lng], {
