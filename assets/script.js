@@ -36,11 +36,31 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
     for (var i in data) {
+        var markers = {};
         var row = data[i];
-        var key = row.lat + row.lng;
+        var lat_long = row.lat + ";" + row.lng;
         var truePage = row.page - 15;
-        row.key = key;
+        // row.key = key;
         row.truePage = truePage;
+
+        // si le marqueur existe deja, 
+        if (lat_long in markers) {
+            //Ajoute la mention du lieu dans ce marqueur
+            markers[lat_long].push(row); 
+            console.log("marker deja vu");
+        } else {
+            //Creer un nv marquer pour cette mention de lieu
+            markers[lat_long]=[row];
+        }
+
+        console.log(markers[lat_long]);
+        // for(var key in row) {
+        //     console.log(row[key]);
+        // }
+        // var marqueurs = {"0.4-48.3":[{"city":"Navarre", "subject":"Philippe", "page":25}], "0.3-48.5":[{"city":"Escouy", "subject":"Philippe", "page":30},{"city":"Escouy", "subject":"Charlotte", "page":31}]};
+        // for(mark in markers){
+            
+        // }
 
         // If `page` is null, then do not show page number
         if (row.page == null) {
@@ -57,6 +77,9 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
 
         marker.addTo(map);
     }
+
+
+
 
 });
 
