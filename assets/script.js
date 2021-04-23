@@ -35,8 +35,9 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
     // console.log(data);
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
+    var markers = {};
+
     for (var i in data) {
-        var markers = {};
         var row = data[i];
         var lat_long = row.lat + ";" + row.lng;
         var truePage = row.page - 15;
@@ -48,12 +49,24 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
             //Ajoute la mention du lieu dans ce marqueur
             markers[lat_long].push(row); 
             console.log("marker deja vu");
+            // for (var i in markers[lat_long]) {
+            //     console.log(markers[lat_long][i].city);
+            //     var marker = L.marker([markers[lat_long][i].lat, markers[lat_long][i].lng], {
+            //         opacity: 1
+            //     }).setPopupContent(markers[lat_long][i].subject + '<br>' + markers[lat_long][i].page);
+            // };
         } else {
             //Creer un nv marquer pour cette mention de lieu
             markers[lat_long]=[row];
+            for (var i in markers[lat_long]) {
+                console.log(markers[lat_long][i].city);
+                var marker = L.marker([markers[lat_long][i].lat, markers[lat_long][i].lng], {
+                    opacity: 1
+                }).bindPopup('<b>' + markers[lat_long][i].city + '</b><br>' + markers[lat_long][i].subject + '<br>' + markers[lat_long][i].page);
+            };
         }
 
-        console.log(markers[lat_long]);
+        console.log(markers);
         // for(var key in row) {
         //     console.log(row[key]);
         // }
@@ -63,17 +76,17 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         // }
 
         // If `page` is null, then do not show page number
-        if (row.page == null) {
-            var marker = L.marker([row.lat, row.lng], {
-                opacity: 1
-            }).bindPopup('<b>' + row.city + '</b><br>' + row.subject);
+        // if (row.page == null) {
+        //     var marker = L.marker([row.lat, row.lng], {
+        //         opacity: 1
+        //     }).bindPopup('<b>' + row.city + '</b><br>' + row.subject);
 
 
-        } else {
-            var marker = L.marker([row.lat, row.lng], {
-                opacity: 1
-            }).bindPopup('<b>' + row.city + '</b><br>' + row.subject + '<br>' + row.page);
-        };
+        // } else {
+        //     var marker = L.marker([row.lat, row.lng], {
+        //         opacity: 1
+        //     }).bindPopup('<b>' + row.city + '</b><br>' + row.subject + '<br>' + row.page);
+        // };
 
         marker.addTo(map);
     }
