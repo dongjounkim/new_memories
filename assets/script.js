@@ -16,7 +16,7 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
     // Use PapaParse to convert string to array of objects
     var data = Papa.parse(csvString, {
         header: true,
-        endoding: "fr",
+        encoding: "fr",
         transform: function (h) {
             return h.replace(',', '.')
         },
@@ -36,14 +36,14 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
     var markers = {};
-
+    //Step 1 : list all locations to avoid duplicates
+    console.log(data);
     for (var i in data) {
         var row = data[i];
         var lat_long = row.lat + ";" + row.lng;
         var truePage = row.page - 15;
         // row.key = key;
         row.truePage = truePage;
-
         // si le marqueur existe deja, 
         if (lat_long in markers) {
             //Ajoute la mention du lieu dans ce marqueur
@@ -58,15 +58,29 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         } else {
             //Creer un nv marquer pour cette mention de lieu
             markers[lat_long]=[row];
-            for (var i in markers[lat_long]) {
-                console.log(markers[lat_long][i].city);
-                var marker = L.marker([markers[lat_long][i].lat, markers[lat_long][i].lng], {
-                    opacity: 1
-                }).bindPopup('<b>' + markers[lat_long][i].city + '</b><br>' + markers[lat_long][i].subject + '<br>' + markers[lat_long][i].page);
-            };
         }
-
+    }
+        
         console.log(markers);
+        //Step 2 : creake markers and create popup
+        let popup_info = {"Charlotte":[],"Philippe":[]};
+        console.log(popup_info['Charlotte']);
+
+        for (marker_infos in markers) {
+            //prepare popup for this marker
+            for (var i in markers[marker_infos]) {
+                console.log(i);
+                
+            };
+            console.log(markers[marker_infos][i].city);
+            var marker = L.marker([markers[marker_infos][i].lat, markers[marker_infos][i].lng], {
+                opacity: 1
+            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>' + markers[marker_infos][i].subject + '<br>' + markers[marker_infos][i].page);
+
+            marker.addTo(map);
+        };
+
+
         // for(var key in row) {
         //     console.log(row[key]);
         // }
@@ -88,8 +102,8 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         //     }).bindPopup('<b>' + row.city + '</b><br>' + row.subject + '<br>' + row.page);
         // };
 
-        marker.addTo(map);
-    }
+
+    
 
 
 
@@ -100,6 +114,7 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
 //Get HTML file locally
 $.get('assets/data/dev_data_text.html', function (textData) {
     // Global variables
+    
     newData = textData.split('</page>');
     console.log(newData);
 
