@@ -32,12 +32,12 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         return -1;
     }
 
-    // console.log(data);
+    // // console.log(data);
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
     var markers = {};
     //Step 1 : list all locations to avoid duplicates
-    console.log(data);
+    // console.log(data);
     for (var i in data) {
         var row = data[i];
         var lat_long = row.lat + ";" + row.lng;
@@ -48,9 +48,9 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         if (lat_long in markers) {
             //Ajoute la mention du lieu dans ce marqueur
             markers[lat_long].push(row); 
-            console.log("marker deja vu");
+            // console.log("marker deja vu");
             // for (var i in markers[lat_long]) {
-            //     console.log(markers[lat_long][i].city);
+            //     // console.log(markers[lat_long][i].city);
             //     var marker = L.marker([markers[lat_long][i].lat, markers[lat_long][i].lng], {
             //         opacity: 1
             //     }).setPopupContent(markers[lat_long][i].subject + '<br>' + markers[lat_long][i].page);
@@ -61,28 +61,31 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         }
     }
         
-        console.log(markers);
+        // console.log(markers);
         //Step 2 : creake markers and create popup
         let popup_info = {"Charlotte":[],"Philippe":[]};
-        console.log(popup_info['Charlotte']);
+        console.log( popup_info);
 
         for (marker_infos in markers) {
             //prepare popup for this marker
             for (var i in markers[marker_infos]) {
-                console.log(i);
+                if (markers[marker_infos][i].subject == "Philippe") {
+                    popup_info["Philippe"].push(markers[marker_infos][i]['page']);
+                } else if (markers[marker_infos][i].subject == "Charlotte") {
+                    popup_info["Charlotte"].push(markers[marker_infos][i]['page']);
+                }
                 
             };
-            console.log(markers[marker_infos][i].city);
             var marker = L.marker([markers[marker_infos][i].lat, markers[marker_infos][i].lng], {
                 opacity: 1
-            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>' + markers[marker_infos][i].subject + '<br>' + markers[marker_infos][i].page);
+            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>Philippe :<br>' + popup_info['Philippe'] + '</b><br>Charlotte :<br>' + popup_info['Charlotte']);
 
             marker.addTo(map);
         };
-
+        
 
         // for(var key in row) {
-        //     console.log(row[key]);
+        //     // console.log(row[key]);
         // }
         // var marqueurs = {"0.4-48.3":[{"city":"Navarre", "subject":"Philippe", "page":25}], "0.3-48.5":[{"city":"Escouy", "subject":"Philippe", "page":30},{"city":"Escouy", "subject":"Charlotte", "page":31}]};
         // for(mark in markers){
@@ -116,7 +119,7 @@ $.get('assets/data/dev_data_text.html', function (textData) {
     // Global variables
     
     newData = textData.split('</page>');
-    console.log(newData);
+    // console.log(newData);
 
     current_page = 1;
     records_per_page = 2;
