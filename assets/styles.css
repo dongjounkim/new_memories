@@ -65,6 +65,10 @@ body {
   width: 90%;
 }
 
+.book__page__menu__text {
+  width: 80px;
+}
+
 .book__page__menu__btn {
   background: none;
   border: none;

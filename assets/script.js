@@ -144,6 +144,7 @@ function changePage(page) {
     var btn_prev = document.getElementById("btn_prev");
     var listing_table = document.getElementById("listingTable");
     var page_span = document.getElementById("page");
+    var max_page = newData.length / 2;
 
     // Validate page
     if (page < 1) page = 1;
@@ -154,7 +155,9 @@ function changePage(page) {
     for (var i = (page - 1) * records_per_page; i < (page * records_per_page); i++) {
         listing_table.innerHTML += newData[i] + "<br>";
     }
-    page_span.innerHTML = page;
+    
+    //Adds the following string in span id="page" and changes page from input value 
+    page_span.innerHTML = `<input type="number" class="book__page__menu__text" onChange="changePage(this.value); current_page = this.value;" id="page" placeholder="Page: ${page}" name="pagenum" min="1" max="${max_page}">`;
 
     if (page == 1) {
         btn_prev.style.visibility = "hidden";
@@ -176,7 +179,6 @@ function numPages() {
 window.onload = function () {
     changePage(1);
 };
-
 
 // Changes page when left and right arrow keys are pressed down
 document.onkeydown = function () {
