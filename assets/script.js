@@ -78,11 +78,11 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
             };
             var marker = L.marker([markers[marker_infos][i].lat, markers[marker_infos][i].lng], {
                 opacity: 1
-            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>Philippe :<br>' + popup_info['Philippe'] + '</b><br>Charlotte :<br>' + popup_info['Charlotte']);
-
+            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>Philippe :<br>' + `<a href="${popup_info['Philippe'][i]}">${popup_info['Philippe']}</a>` + '</b><br>Charlotte :<br>' + `<a href="#">${popup_info['Charlotte']}</a>`);
+            console.log(`${popup_info['Philippe'][i]}`);
             marker.addTo(map);
+            i++;
         };
-        
 
         // for(var key in row) {
         //     // console.log(row[key]);
@@ -136,6 +136,7 @@ function nextPage() {
     if (current_page < numPages()) {
         current_page++;
         changePage(current_page);
+        
     }
 }
 
@@ -157,7 +158,7 @@ function changePage(page) {
     }
     
     //Adds the following string in span id="page" and changes page from input value 
-    page_span.innerHTML = `<input type="number" class="book__page__menu__text" onChange="changePage(this.value); current_page = this.value;" id="page" placeholder="Page: ${page}" name="pagenum" min="1" max="${max_page}">`;
+    page_span.innerHTML = `<input type="number" class="book__page__menu__text" onChange="changePage(this.value); current_page = this.value; changePageID();" id="page" placeholder="Page: ${page}" name="pagenum" min="1" max="${max_page}">`;
 
     if (page == 1) {
         btn_prev.style.visibility = "hidden";
@@ -170,10 +171,18 @@ function changePage(page) {
     } else {
         btn_next.style.visibility = "visible";
     }
+
+    changePageID();
 }
 
 function numPages() {
     return Math.ceil(newData.length / records_per_page);
+}
+
+//Adds page number as ID in the URL
+function changePageID() {
+    history.pushState({page: current_page}, ``, `?page=${current_page}`);
+    console.log("change Id")
 }
 
 window.onload = function () {
