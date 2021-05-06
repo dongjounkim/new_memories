@@ -64,9 +64,9 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         // console.log(markers);
         //Step 2 : creake markers and create popup
         let popup_info = {"Charlotte":[],"Philippe":[]};
-        console.log( popup_info);
-
+        
         for (marker_infos in markers) {
+            console.log(markers);
             //prepare popup for this marker
             for (var i in markers[marker_infos]) {
                 if (markers[marker_infos][i].subject == "Philippe") {
@@ -76,12 +76,14 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
                 }
                 
             };
+            //loop prepare list link each link to places
+    
             var marker = L.marker([markers[marker_infos][i].lat, markers[marker_infos][i].lng], {
                 opacity: 1
-            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>Philippe :<br>' + `<a href="${popup_info['Philippe'][i]}">${popup_info['Philippe']}</a>` + '</b><br>Charlotte :<br>' + `<a href="#">${popup_info['Charlotte']}</a>`);
-            console.log(`${popup_info['Philippe'][i]}`);
+            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>Philippe :<br>' + `<a href="${popup_info['Philippe']}">${popup_info['Philippe']} </a>` + '</b><br>Charlotte :<br>' + `<a href="#">${popup_info['Charlotte']} </a>`);
+
             marker.addTo(map);
-            i++;
+            
         };
 
         // for(var key in row) {
