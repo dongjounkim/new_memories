@@ -6,6 +6,16 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .book__page {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 100vw !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+  .book__page__menu {
+    margin: 1rem;
+  }
 }
 
 * {
@@ -26,14 +36,12 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 .book__page {
   position: relative;
   max-width: 700px;
+  min-width: 700px;
   max-height: 800px;
   width: 700px;
   height: 800px;
