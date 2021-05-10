@@ -32,6 +32,19 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         return -1;
     }
 
+    function render_links(str) {
+        let page_links = `<br>${str} :<br>`;
+        for (let i in popup_info[str]) {
+            let comma = `, `;
+            if (i == 0) {
+                comma = ``;
+            }
+            page_links += `${comma}<a href="?page=${popup_info[str][i]}">${popup_info[str][i]}</a>` ;
+            // console.log(page_links);
+        }
+        return page_links;
+    }
+
     // // console.log(data);
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
@@ -63,29 +76,35 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         
         // console.log(markers);
         //Step 2 : creake markers and create popup
-        let popup_info = {"Charlotte":[],"Philippe":[]};
         
         for (marker_infos in markers) {
-            console.log(markers);
-            //prepare popup for this marker
+            // Step 2a: create page list for this location/marker
+            popup_info = {"Charlotte":[],"Philippe":[]};
             for (var i in markers[marker_infos]) {
                 if (markers[marker_infos][i].subject == "Philippe") {
+                    // popup_info["Philippe"].push(`<a href="${markers[marker_infos][i]['page']}">${markers[marker_infos][i]['page']} </a>`);
                     popup_info["Philippe"].push(markers[marker_infos][i]['page']);
                 } else if (markers[marker_infos][i].subject == "Charlotte") {
                     popup_info["Charlotte"].push(markers[marker_infos][i]['page']);
                 }
                 
             };
+            //Step 2b: prepare popup for this marker
+            //as function below
+            let Philippe_links = render_links(`Philippe`);
+            let Charlotte_links = render_links(`Charlotte`);
+            
+            // page_links = page_links.substring(0,page_links.length-2);
             //loop prepare list link each link to places
     
             var marker = L.marker([markers[marker_infos][i].lat, markers[marker_infos][i].lng], {
                 opacity: 1
-            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b><br>Philippe :<br>' + `<a href="${popup_info['Philippe']}">${popup_info['Philippe']} </a>` + '</b><br>Charlotte :<br>' + `<a href="#">${popup_info['Charlotte']} </a>`);
+            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b>' + `${Philippe_links}` + `${Charlotte_links}`);
 
             marker.addTo(map);
             
         };
-
+        
         // for(var key in row) {
         //     // console.log(row[key]);
         // }
@@ -106,13 +125,6 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
         //         opacity: 1
         //     }).bindPopup('<b>' + row.city + '</b><br>' + row.subject + '<br>' + row.page);
         // };
-
-
-    
-
-
-
-
 });
 
 //Pagination
