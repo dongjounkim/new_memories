@@ -1,10 +1,10 @@
 // initialize Leaflet
 var map = L.map('mapid').setView([46, 2], 5);
 
-// add the OpenStreetMap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+// add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+	maxZoom: 20,
+	attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 // show the scale bar on the lower left corner
@@ -39,7 +39,7 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
             if (i == 0) {
                 comma = ``;
             }
-            page_links += `${comma}<a href="?page=${popup_info[str][i]}">${popup_info[str][i]}</a>` ;
+            page_links += `${comma}<a href="" onclick="event.preventDefault(); changePage(${popup_info[str][i]})">${popup_info[str][i]}</a>` ;
             // console.log(page_links);
         }
         return page_links;
@@ -83,16 +83,15 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
             for (var i in markers[marker_infos]) {
                 if (markers[marker_infos][i].subject == "Philippe") {
                     // popup_info["Philippe"].push(`<a href="${markers[marker_infos][i]['page']}">${markers[marker_infos][i]['page']} </a>`);
-                    popup_info["Philippe"].push(markers[marker_infos][i]['page']);
+                    popup_info["Philippe"].push(markers[marker_infos][i]['page'] - 15);
                 } else if (markers[marker_infos][i].subject == "Charlotte") {
-                    popup_info["Charlotte"].push(markers[marker_infos][i]['page']);
+                    popup_info["Charlotte"].push(markers[marker_infos][i]['page'] - 15);
                 }
                 
             };
-            //Step 2b: prepare popup for this marker
-            //as function below
-            let Philippe_links = render_links(`Philippe`);
-            let Charlotte_links = render_links(`Charlotte`);
+            //Step 2b: prepare popup for this marker, this avoids duplicates
+            let Philippe_links = render_links("Philippe");
+            let Charlotte_links = render_links("Charlotte");
             
             // page_links = page_links.substring(0,page_links.length-2);
             //loop prepare list link each link to places
@@ -136,7 +135,7 @@ $.get('assets/data/dev_data_text.html', function (textData) {
     // console.log(newData);
 
     current_page = 1;
-    records_per_page = 2;
+    records_per_page = 1;
 });
 
 function prevPage() {
@@ -172,7 +171,7 @@ function changePage(page) {
     }
     
     //Adds the following string in span id="page" and changes page from input value 
-    page_span.innerHTML = `<input type="number" class="book__page__menu__text" onChange="changePage(this.value); current_page = this.value; changePageID();" id="page" placeholder="Page: ${page}" name="pagenum" min="1" max="${max_page}">`;
+    page_span.innerHTML = `<input id="#page_input" type="number" class="book__page__menu__text" onChange="" id="page" placeholder="Page: ${page}" name="pagenum" min="1" max="${max_page}">`;
 
     if (page == 1) {
         btn_prev.style.visibility = "hidden";
@@ -187,7 +186,15 @@ function changePage(page) {
     }
 
     changePageID();
+
+    //Change page from page input form
+    document.getElementById('#page_input').addEventListener('change',function(){
+        changePage(this.value); 
+        current_page = this.value; 
+        changePageID();
+    });
 }
+
 
 function numPages() {
     return Math.ceil(newData.length / records_per_page);
@@ -196,7 +203,7 @@ function numPages() {
 //Adds page number as ID in the URL
 function changePageID() {
     history.pushState({page: current_page}, ``, `?page=${current_page}`);
-    console.log("change Id")
+    // console.log("change Id");
 }
 
 window.onload = function () {
