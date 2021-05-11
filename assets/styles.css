@@ -46,11 +46,11 @@ body {
 
 .book__page {
   position: relative;
-  max-width: 700px;
-  min-width: 700px;
-  max-height: 800px;
-  width: 700px;
-  height: 800px;
+  max-width: 600px;
+  min-width: 600px;
+  width: 600px;
+  min-height: 700px;
+  height: 700px;
   background-color: antiquewhite;
   border: 2px black solid;
   display: -webkit-box;

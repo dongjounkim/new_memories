@@ -39,7 +39,7 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
             if (i == 0) {
                 comma = ``;
             }
-            page_links += `${comma}<a href="" onclick="event.preventDefault(); changePage(${popup_info[str][i]})">${popup_info[str][i]}</a>` ;
+            page_links += `${comma}<a href="" onclick="event.preventDefault(); changePage(${popup_info[str][i]}); current_page = ${popup_info[str][i]};  changePageID(); ">${popup_info[str][i]}</a>` ;
             // console.log(page_links);
         }
         return page_links;
@@ -207,7 +207,14 @@ function changePageID() {
 }
 
 window.onload = function () {
-    changePage(1);
+    //get page id from URL
+    let url_page = location.href.split("?page=")[1];
+    console.log(url_page);
+    changePage(url_page);
+
+    if (url_page == undefined) {
+        changePage(1);
+    }
 };
 
 // Changes page when left and right arrow keys are pressed down
