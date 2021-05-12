@@ -49,6 +49,9 @@ $.get('assets/data/dev_data_locations.csv', function (csvString) {
     // For each row in data, create a marker and add it to the map
     // For each row, columns `lat`, `lng`, and `city` are required
     var markers = {};
+    let pages = {"city":[], "id":[]};
+    // id = lat long
+    
     //Step 1 : list all locations to avoid duplicates
     // console.log(data);
     for (var i in data) {
