@@ -2,7 +2,6 @@
 var map = L.map('mapid').setView([46, 2], 5);
 
 // declare global variables
-
 var newData;
 
 // add OpenStreetMap tiles
@@ -14,15 +13,15 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
 // show the scale bar on the lower left corner
 L.control.scale().addTo(map);
 
-// Read markers data from data.csv
 window.onload = function () {
     var data;
+    // Read markers data from Google Sheets csv
     Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTp2SZS_HH-Q2fSZ2dHKWg9OYr0G_cgWy2M2GwdsfWQC3RBbvzsRZILWAAiDddTNk7PkXp_aua2H2wN/pub?gid=0&single=true&output=csv', {
         download: true,
         header: true,
         complete: function (results) {
             data = results.data;
-            console.log(data);
+            // console.log(data);
             loadData(data);
         },
         encoding: "fr",
@@ -123,58 +122,43 @@ window.onload = function () {
 
         };
 
-        // for(var key in row) {
-        //     // console.log(row[key]);
-        // }
-        // var marqueurs = {"0.4-48.3":[{"city":"Navarre", "subject":"Philippe", "page":25}], "0.3-48.5":[{"city":"Escouy", "subject":"Philippe", "page":30},{"city":"Escouy", "subject":"Charlotte", "page":31}]};
-        // for(mark in markers){
-
-        // }
-
-        // If `page` is null, then do not show page number
-        // if (row.page == null) {
-        //     var marker = L.marker([row.lat, row.lng], {
-        //         opacity: 1
-        //     }).bindPopup('<b>' + row.city + '</b><br>' + row.subject);
-
-
-        // } else {
-        //     var marker = L.marker([row.lat, row.lng], {
-        //         opacity: 1
-        //     }).bindPopup('<b>' + row.city + '</b><br>' + row.subject + '<br>' + row.page);
-        // };
-        replace = data[1]['original_city'];
-        console.log(replace);
-        var re = new RegExp(replace, "gmi");
-
-
-        console.log(replace);
-
-
         //Pagination
         //Get HTML file locally
         $.get('assets/data/dev_data_text.html', function (textData) {
             // Global variables
+            let newText = textData;
+            // Find placenames and turn them into links
+            for (let i = 0; i<data.length;i++) {
+                let replace = data[i]['original_city'];
+                // console.log(replace);
+                let re = new RegExp(`\\b${replace}\\b`, "gmi");
+                if (replace != "") {
+                    newText = newText.replace(re, `<a id="${data[i]['lat']};${data[i]['lng']}" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">${data[i]['original_city']}</a>`);
+                }
+                // console.log(re);
+            }
+            
+            finalData = newText.split('</page>');
 
-            newData = textData.split('</page>');
-            // console.log(newData);
+            // let pagePlace = {
+            //     pageNum = {
 
-            testPlaces = textData.replace(/paris/gmi, );
-            console.log(testPlaces);
+            //     }
+            // }
+
+            let url_page = location.href.split("?page=")[1];
 
             current_page = 1;
             records_per_page = 1;
 
             //get page id from URL
-            let url_page = location.href.split("?page=")[1];
             if (url_page == undefined) {
                 changePage(1);
                 current_page = 1;
                 console.log(current_page);
             } else {
-                changePage(url_page);
-                changePageID();
                 current_page = url_page;
+                changePage(url_page);
             }
             console.log(current_page);
         });
@@ -203,7 +187,7 @@ function changePage(page) {
     var btn_prev = document.getElementById("btn_prev");
     var listing_table = document.getElementById("listingTable");
     var page_span = document.getElementById("page");
-    var max_page = newData.length / 2;
+    var max_page = finalData.length / 2;
 
     // Validate page
     if (page < 1) page = 1;
@@ -212,7 +196,7 @@ function changePage(page) {
     listing_table.innerHTML = "";
 
     for (var i = (page - 1) * records_per_page; i < (page * records_per_page); i++) {
-        listing_table.innerHTML += newData[i] + "<br>";
+        listing_table.innerHTML += finalData[i] + "<br>";
     }
 
     //Adds the following string in span id="page" and changes page from input value 
@@ -242,7 +226,7 @@ function changePage(page) {
 
 
 function numPages() {
-    return Math.ceil(newData.length / records_per_page);
+    return Math.ceil(finalData.length / records_per_page);
 }
 
 //Adds page number as ID in the URL
