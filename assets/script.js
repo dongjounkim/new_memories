@@ -68,7 +68,7 @@ window.onload = function () {
         // console.log(data);
         for (var i in data) {
             var row = data[i];
-            var lat_long = row.lat + ";" + row.lng;
+            lat_long = row.lat + ";" + row.lng;
             var truePage = row.page - 15;
             // row.key = key;
             row.truePage = truePage;
@@ -88,6 +88,7 @@ window.onload = function () {
                 markers[lat_long] = [row];
             }
         }
+
 
         // console.log(markers);
         //Step 2 : creake markers and create popup
@@ -133,7 +134,7 @@ window.onload = function () {
                 // console.log(replace);
                 let re = new RegExp(`\\b${replace}\\b`, "gmi");
                 if (replace != "") {
-                    newText = newText.replace(re, `<a id="${data[i]['lat']};${data[i]['lng']}" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">${data[i]['original_city']}</a>`);
+                    newText = newText.replace(re, `<a onclick="zoomPlace(); event.preventDefault();" data-position="${data[i]['lat']};${data[i]['lng']}" id="${data[i]['lat']};${data[i]['lng']}" href="">${data[i]['original_city']}</a>`);
                 }
                 // console.log(re);
             }
@@ -145,6 +146,10 @@ window.onload = function () {
 
             //     }
             // }
+
+
+
+
 
             let url_page = location.href.split("?page=")[1];
 
@@ -163,6 +168,21 @@ window.onload = function () {
             console.log(current_page);
         });
 
+
+        console.log(lat_long);
+
+        //on click zoom to place on map
+        function zoomPlace(event) {
+            event.preventDefault();
+            let pos = event.target.getAttribute('data-position');
+            // let zoom = abc.target.getAttribute('data-zoom');
+            if (pos && zoom) {
+                var locat = pos.split(';');
+                var zoo = parseInt(zoom);
+                map.setView(locat, zoo, {animation: true});
+                return false;
+            }
+        }      
     };
 
 };
