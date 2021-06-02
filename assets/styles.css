@@ -60,7 +60,7 @@ body {
   width: 600px;
   min-height: 700px;
   height: 700px;
-  background-image: url("images/page-vierge.jpg");
+  background-image: url("images/page-bg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -78,8 +78,9 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   font-size: 1rem;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-          box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  margin-bottom: 2rem;
+  -webkit-filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.2)) drop-shadow(-1px -1px 10px rgba(0, 0, 0, 0.2));
+          filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.2)) drop-shadow(-1px -1px 10px rgba(0, 0, 0, 0.2));
 }
 
 .book__page__map {

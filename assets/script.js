@@ -99,6 +99,7 @@ window.onload = function () {
                 "Charlotte": [],
                 "Philippe": []
             };
+
             for (var i in markers[marker_infos]) {
                 if (markers[marker_infos][i].subject == "Philippe") {
                     // popup_info["Philippe"].push(`<a href="${markers[marker_infos][i]['page']}">${markers[marker_infos][i]['page']} </a>`);
@@ -115,9 +116,11 @@ window.onload = function () {
             // page_links = page_links.substring(0,page_links.length-2);
             //loop prepare list link each link to places
 
+            lat_long = markers[marker_infos][i].lat + ";" + markers[marker_infos][i].lng;
+
             var marker = L.marker([markers[marker_infos][i].lat, markers[marker_infos][i].lng], {
                 opacity: 1
-            }).bindPopup('<b>' + markers[marker_infos][i].city + '</b>' + `${Philippe_links}` + `${Charlotte_links}`);
+            }).bindPopup(`<b id="${lat_long}">` + markers[marker_infos][i].city + '</b>' + `${Philippe_links}` + `${Charlotte_links}`);
 
             marker.addTo(map);
 
@@ -134,7 +137,7 @@ window.onload = function () {
                 // console.log(replace);
                 let re = new RegExp(`\\b${replace}\\b`, "gmi");
                 if (replace != "") {
-                    newText = newText.replace(re, `<a onclick="zoomPlace(); event.preventDefault();" data-position="${data[i]['lat']};${data[i]['lng']}" id="${data[i]['lat']};${data[i]['lng']}" href="">${data[i]['original_city']}</a>`);
+                    newText = newText.replace(re, `<a onclick="event.preventDefault(); zoomPlace();" data-position="${data[i]['lat']};${data[i]['lng']}" href="">${data[i]['original_city']}</a>`);
                 }
                 // console.log(re);
             }
