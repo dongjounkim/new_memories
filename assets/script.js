@@ -15,8 +15,10 @@ L.control.scale().addTo(map);
 
 window.onload = function () {
     var data;
+    //local
+    Papa.parse('assets/data/dev_data_locations.csv', {
     // Read markers data from Google Sheets csv
-    Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTp2SZS_HH-Q2fSZ2dHKWg9OYr0G_cgWy2M2GwdsfWQC3RBbvzsRZILWAAiDddTNk7PkXp_aua2H2wN/pub?gid=0&single=true&output=csv', {
+    // Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTp2SZS_HH-Q2fSZ2dHKWg9OYr0G_cgWy2M2GwdsfWQC3RBbvzsRZILWAAiDddTNk7PkXp_aua2H2wN/pub?gid=0&single=true&output=csv', {
         download: true,
         header: true,
         complete: function (results) {
@@ -126,13 +128,15 @@ window.onload = function () {
 
         };
 
+
+
         //Pagination
         //Get HTML file locally
         $.get('assets/data/dev_data_text.html', function (textData) {
             // Global variables
             let newText = textData;
             // Find placenames and turn them into links
-            for (let i = 0; i<data.length;i++) {
+            for (let i = 0; i < data.length; i++) {
                 let replace = data[i]['original_city'];
                 // console.log(replace);
                 let re = new RegExp(`\\b${replace}\\b`, "gmi");
@@ -141,7 +145,7 @@ window.onload = function () {
                 }
                 // console.log(re);
             }
-            
+
             finalData = newText.split('</page>');
 
             // let pagePlace = {
@@ -149,10 +153,6 @@ window.onload = function () {
 
             //     }
             // }
-
-
-
-
 
             let url_page = location.href.split("?page=")[1];
 
@@ -168,27 +168,30 @@ window.onload = function () {
                 current_page = url_page;
                 changePage(url_page);
             }
-            console.log(current_page);
+            // console.log(current_page);
         });
-
-
-        console.log(lat_long);
-
-        //on click zoom to place on map
-        function zoomPlace(event) {
-            event.preventDefault();
-            let pos = event.target.getAttribute('data-position');
-            // let zoom = abc.target.getAttribute('data-zoom');
-            if (pos && zoom) {
-                var locat = pos.split(';');
-                var zoo = parseInt(zoom);
-                map.setView(locat, zoo, {animation: true});
-                return false;
-            }
-        }      
+        // console.log(lat_long);
     };
 
 };
+
+//on click zoom to place on map
+function zoomPlace() {
+    let pos = event.target.getAttribute('data-position');
+    let zoom = 10;
+    console.log(pos);
+    if (pos) {
+        var locat = pos.split(';');
+        var zoo = parseInt(zoom);
+        console.log(zoom);
+        map.flyTo(new L.LatLng(locat[0],locat[1]),zoom);
+
+        // map = L.map('mapid').setView(locat, zoo, {
+        //     animation: true
+        // });
+        return false;
+    }
+}
 
 function prevPage() {
     if (current_page > 1) {
