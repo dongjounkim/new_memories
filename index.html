@@ -21,7 +21,7 @@
 <body>
     <h1 class="h1">Mémoires de Madame de Mornay</h1>
     <div class="book">
-        <div class="book__page">
+        <div class="book__page" id="book">
             <div class="book__page__text">
                 <div id="listingTable"></div>
             </div>
@@ -35,8 +35,10 @@
                 <button onclick="nextPage()" class="book__page__menu__btn" id="btn_next">►</button>
             </div>
         </div>
-        <div class="book__page">
-            <div id="mapid" class="book__page__map"></div>
+        <div class="book__page" id="map">
+            <div class="book__page__mapback">
+                <div id="mapid" class="book__page__mapback__map"></div>
+            </div>
         </div>
     </div>
     <script src="assets/script.js"></script>

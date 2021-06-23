@@ -22,6 +22,7 @@
   }
   .book__page:nth-child(2) {
     height: 100vh !important;
+    background-image: none;
   }
 }
 
@@ -83,7 +84,28 @@ body {
           filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.2)) drop-shadow(-1px -1px 10px rgba(0, 0, 0, 0.2));
 }
 
-.book__page__map {
+.book__page__mapback {
+  height: 90%;
+  width: 90%;
+  background-image: url("images/mapback.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.16) 0px 1px 4px);
+          filter: drop-shadow(rgba(0, 0, 0, 0.16) 0px 1px 4px);
+}
+
+.book__page__mapback__map {
   height: 90%;
   width: 90%;
   -webkit-transform: scaleX(-1);

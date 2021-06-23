@@ -50,7 +50,7 @@ window.onload = function () {
                 if (i == 0) {
                     comma = ``;
                 }
-                page_links += `${comma}<a href="" onclick="event.preventDefault(); changePage(${popup_info[str][i]}); current_page = ${popup_info[str][i]};  changePageID(); ">${popup_info[str][i]}</a>`;
+                page_links += `${comma}<a href="#book" onclick="event.preventDefault(); changePage(${popup_info[str][i]}); current_page = ${popup_info[str][i]};  changePageID(); ">${popup_info[str][i]}</a>`;
                 // console.log(page_links);
             }
             return page_links;
@@ -141,7 +141,7 @@ window.onload = function () {
                 // console.log(replace);
                 let re = new RegExp(`\\b${replace}\\b`, "gmi");
                 if (replace != "") {
-                    newText = newText.replace(re, `<a onclick="event.preventDefault(); zoomPlace();" data-position="${data[i]['lat']};${data[i]['lng']}" href="">${data[i]['original_city']}</a>`);
+                    newText = newText.replace(re, `<a href="#map" onclick="event.preventDefault(); zoomPlace();" data-position="${data[i]['lat']};${data[i]['lng']}" >${data[i]['original_city']}</a>`);
                 }
                 // console.log(re);
             }
