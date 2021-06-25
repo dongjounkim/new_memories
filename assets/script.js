@@ -103,14 +103,15 @@ window.onload = function () {
             };
 
             for (var i in markers[marker_infos]) {
-                if (markers[marker_infos][i].subject == "Philippe") {
+                if (markers[marker_infos][i].subject == "Philippe" && markers[marker_infos][i]['page'] !== "") {
                     // popup_info["Philippe"].push(`<a href="${markers[marker_infos][i]['page']}">${markers[marker_infos][i]['page']} </a>`);
                     popup_info["Philippe"].push(markers[marker_infos][i]['page'] - 15);
-                } else if (markers[marker_infos][i].subject == "Charlotte") {
+                } else if (markers[marker_infos][i].subject == "Charlotte" && markers[marker_infos][i]['page'] !== "") {
                     popup_info["Charlotte"].push(markers[marker_infos][i]['page'] - 15);
                 }
-
+                
             };
+            console.log(markers)
             //Step 2b: prepare popup for this marker, this avoids duplicates
             let Philippe_links = render_links("Philippe");
             let Charlotte_links = render_links("Charlotte");
