@@ -185,6 +185,12 @@ function zoomPlace() {
         var locat = pos.split(';');
         var zoo = parseInt(zoom);
         console.log(zoom);
+
+        window.scroll({
+            top: document.querySelector("#map").offsetTop + 100, 
+            left: 0, 
+            behavior: 'smooth'
+          });
         map.flyTo(new L.LatLng(locat[0],locat[1]),zoom);
 
         // map = L.map('mapid').setView(locat, zoo, {
@@ -249,6 +255,13 @@ function changePage(page) {
         current_page = this.value;
         changePageID();
     });
+
+    // window.scrollTo(0,0);
+    window.scroll({
+        top: 0, 
+        left: 0, 
+        behavior: 'smooth'
+      });
 }
 
 
